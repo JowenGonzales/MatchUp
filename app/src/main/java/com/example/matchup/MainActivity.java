@@ -2,6 +2,8 @@ package com.example.matchup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.gridlayout.widget.GridLayout;
 
 import android.animation.Animator;
@@ -31,11 +33,24 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
     GridLayout gridLayout;
     TextView textView2;
+    MyFragment myfragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        myfragment = new MyFragment();
+
+        fragmentTransaction.add(R.id.contraints, myfragment);
+        fragmentTransaction.commit();
+
+
+    }
+    public void newGame() {
         gridLayout = (GridLayout) findViewById(R.id.gridLayout4);
         textView2 = (TextView) findViewById(R.id.textView2);
 
@@ -43,13 +58,18 @@ public class MainActivity extends AppCompatActivity {
         Game game = new Game(MainActivity.this);
         Game text = new Game(textView2);
 
-        game.newGame(gridLayout);
-
-
+        game.newGame(gridLayout, 3, 4);
     }
 
 
+    public void easy(View view) {
+        View fragmentView =  myfragment.getView();
+        ViewGroup parent = (ViewGroup) fragmentView.getParent();
+        int index = parent.indexOfChild(fragmentView);
 
-
-
+        // Inflate the new layout and replace the current one
+        View newView =  myfragment.getLayoutInflater().inflate(R.layout.easy, parent , false);
+        parent.addView(newView, index);
+        parent.removeView(fragmentView);
+    }
 }

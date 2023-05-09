@@ -123,11 +123,10 @@ public class Game {
     public void updateScore() {
         Log.d("TAG", Integer.toString(score));
     }
-    public void newGame(GridLayout gridLayout) {
+    public void newGame(GridLayout gridLayout, int numColumns, int numRows) {
 
         // Set the number of columns and rows for the grid
-        int numColumns = 3;
-        int numRows = 4;
+
 
         gridLayout.setRowCount(numRows);
         gridLayout.setColumnCount(numColumns);
@@ -150,7 +149,7 @@ public class Game {
                 // Create buttons and add them to the GridLayout
                 Drawable[] drawables = new Game(mContext).createGameBoard(numColumns * numRows);
 
-                Log.d("TAG", Arrays.toString(Game.cardIds));
+                Log.d("CARDPOSITIONS: ", Arrays.toString(Game.cardIds));
 
                 for (int i = 0; i < numColumns * numRows; i++) {
                     FlippableButton button = new FlippableButton(mContext, drawables[i]);
