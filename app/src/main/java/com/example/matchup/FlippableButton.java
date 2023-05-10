@@ -5,10 +5,12 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -30,6 +32,7 @@ public class FlippableButton extends AppCompatButton {
         backimage = drawable;
         init();
     }
+
 
     public FlippableButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -55,6 +58,7 @@ public class FlippableButton extends AppCompatButton {
 
     }
     private void init() {
+
         // Create the front and back drawables
         frontDrawable = getResources().getDrawable(R.drawable.backcard2);
         backDrawable = backimage;
@@ -65,11 +69,28 @@ public class FlippableButton extends AppCompatButton {
         // Create the flip animation
         ObjectAnimator flipOut = ObjectAnimator.ofFloat(this, "rotationY", 0f, 90f);
         ObjectAnimator flipIn = ObjectAnimator.ofFloat(this, "rotationY", -90f, 0f);
-        flipIn.setStartDelay(200);
+
         flipAnimation = new AnimatorSet();
         flipAnimation.playSequentially(flipOut, flipIn);
-        flipAnimation.setDuration(300);
+
         flipAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+
+
+
+        this.setRotationY(90f);
+        this.flipAnimation.start();
+
+
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                flipAnimation.start();
+            }
+        }, 2000);
+
+        flipAnimation.setDuration(300);
 
         flipOut.addListener(new Animator.AnimatorListener() {
             @Override
@@ -80,10 +101,16 @@ public class FlippableButton extends AppCompatButton {
 
             @Override
             public void onAnimationEnd(Animator animation) {
+
                 flip(flipOut, flipIn);
                 // Enable the button after the animation is complete
                 setEnabled(true);
 
+                if (Game.firstFlippedCard != null) {
+                    Game.firstFlippedCard.setEnabled(false);
+                }
+
+                Log.d("ANIMATION ENDED: ", "ANIMATION ENDED");
             }
 
             @Override
@@ -108,6 +135,7 @@ public class FlippableButton extends AppCompatButton {
                     else if (game.secondFlippedCard == null) {
                         game.secondFlippedCard = FlippableButton.this;
                         game.addFlippedCard(FlippableButton.this);
+
                         flipAnimation.start();
                     }
                     else {
@@ -122,6 +150,7 @@ public class FlippableButton extends AppCompatButton {
                             game.updateScore();
 
                             Log.d("TAG", "Matched");
+
                         } else {
                             game.firstFlippedCard.flipAnimation.start();
                             game.secondFlippedCard.flipAnimation.start();

@@ -1,5 +1,6 @@
 package com.example.matchup;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -27,19 +28,31 @@ public class Game {
     public List<FlippableButton> matchedCards = new ArrayList<>();
 
     public static int[] cardIds;
-    public TextView scoreView;
+    public static TextView scoreView;
     public static int score = 0;
+
+    private EasyActivity easyActivity;
     Game(Context context) {
         mContext = context;
     }
 
-    public Game(TextView textView) {
-        scoreView = textView;
-    }
+
     public Game() {
 
     }
+    public void destroy() {
+        score = 0;
+        firstFlippedCard = null;
+        secondFlippedCard = null;
+        mContext = null;
+        matchedCards = null;
+        cardIds = null;
 
+    }
+    public void setTextView(TextView textview) {
+
+        scoreView = textview;
+    }
     public void addFlippedCard(FlippableButton drawable) {
         matchedCards.add(drawable);
     }
@@ -50,6 +63,9 @@ public class Game {
                 mContext.getResources().getDrawable(R.drawable.chick),
                 mContext.getResources().getDrawable(R.drawable.crab),
                 mContext.getResources().getDrawable(R.drawable.fox),
+                mContext.getResources().getDrawable(R.drawable.tiger),
+                mContext.getResources().getDrawable(R.drawable.hippopotamus),
+                mContext.getResources().getDrawable(R.drawable.pig),
                 // Add more drawables here as needed
         };
 
@@ -107,26 +123,15 @@ public class Game {
     }
 
 
-    public Drawable randomDrawable() {
-        Drawable[] drawables = new Drawable[] {
-                mContext.getResources().getDrawable(R.drawable.bull),
-                mContext.getResources().getDrawable(R.drawable.chick),
-                mContext.getResources().getDrawable(R.drawable.crab),
-                mContext.getResources().getDrawable(R.drawable.fox),
-                // Add more drawables here as needed
-        };
-        return drawables[0];
-    }
 
 
 
     public void updateScore() {
-        Log.d("TAG", Integer.toString(score));
+        Game.scoreView.setText(Integer.toString(score));
     }
     public void newGame(GridLayout gridLayout, int numColumns, int numRows) {
 
         // Set the number of columns and rows for the grid
-
 
         gridLayout.setRowCount(numRows);
         gridLayout.setColumnCount(numColumns);
@@ -160,6 +165,8 @@ public class Game {
 
                     button.setLayoutParams(params);
                     gridLayout.addView(button);
+
+
                 }
 
                 // Remove the listener to avoid multiple calls
