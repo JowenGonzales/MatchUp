@@ -36,6 +36,7 @@ public class Game {
     private EasyActivity easyActivity;
     public static GridLayout cardGridLayout;
     public static FlippableButton[] allButtons;
+    public static boolean matched = false;
     Game(Context context) {
         mContext = context;
     }
@@ -154,7 +155,7 @@ public class Game {
     }
 
 
-    public void updateScore() {
+    public static void updateScore() {
         Game.scoreView.setText(Integer.toString(score));
     }
     public void newGame(GridLayout gridLayout, int numColumns, int numRows) {
@@ -211,7 +212,9 @@ public class Game {
             }
         });
     }
-
-
+    public static void resetFlippedCards() {
+        firstFlippedCard = null;
+        secondFlippedCard = null;
+    }
 
 }

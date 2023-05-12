@@ -1,5 +1,7 @@
 package com.example.matchup;
 
+import static com.example.matchup.Game.resetFlippedCards;
+
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -50,15 +52,15 @@ public class FlippableButton extends AppCompatButton {
 
 
 
-    public void flip(ObjectAnimator flipOut, ObjectAnimator flipIn) {
+    public void flip() {
         if (isFlipped) {
             setBackground(frontDrawable);
             isFlipped = false;
-            Log.d("FLIPPED", "FRONT");
+
         } else {
             setBackground(backDrawable);
             isFlipped = true;
-            Log.d("FLIPPED", "BACK");
+
         }
     }
 
@@ -79,7 +81,7 @@ public class FlippableButton extends AppCompatButton {
         flipAnimation.playSequentially(flipOut, flipIn);
 
         flipAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-        flipAnimation.setStartDelay(1000);
+        flipAnimation.setStartDelay(100);
 
 
 
@@ -94,17 +96,24 @@ public class FlippableButton extends AppCompatButton {
         flipOut.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                setEnabled(false);
+
                 Game.disableAllButtons();
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
 
-                flip(flipOut, flipIn);
-                setEnabled(true);
+
+                // Flip the Card
+                flip();
+
                 Game.enableAllButtons();
-                Log.d("ENABLED BUTTONS", "BUTTONS ENABLED");
+
+                if (Game.firstFlippedCard != null && Game.secondFlippedCard != null) {
+                    Game.firstFlippedCard.setEnabled(false);
+                }
+                
+
             }
 
             @Override
@@ -121,10 +130,37 @@ public class FlippableButton extends AppCompatButton {
             public void onClick(View v) {
                 // Only start the animation if the button is enabled
                 if (isEnabled()) {
-                    flipAnimation.start();
+
+                    if (Game.firstFlippedCard == null) {
+                        flipAnimation.start();
+                        Game.firstFlippedCard = FlippableButton.this;
+                        Log.d("GAME INFO", "First Card Picked");
+                    }
+                    else if (Game.secondFlippedCard == null) {
+                        flipAnimation.start();
+                        Game.secondFlippedCard = FlippableButton.this;
+                        Log.d("GAME INFO", "Second Card Picked");
+                        performClick();
+                    } else {
+
+                        if (Game.firstFlippedCard.cardValue == Game.secondFlippedCard.cardValue) {
+
+                            Game.score += 10;
+                            Game.updateScore();
+                            Game.matched = true;
+                            Log.d("GAME INFO", "Matched");
+
+                            resetFlippedCards();
+                        } else {
+                            resetFlippedCards();
+                            Log.d("GAME INFO", "Wrong Match");
+                        }
+                    }
 
                 }
             }
         });
     }
+
+
 }
