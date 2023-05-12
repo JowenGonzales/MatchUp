@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/comicbackground"
     android:theme="@style/Theme.AppCompat.NoActionBar">
+
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/background2"
+        android:src="@drawable/comicbackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +53,7 @@
             android:id="@+id/button3"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/home_button" />
+            android:background="@drawable/homebutt" />
 
         <Space
             android:layout_width="wrap_content"
@@ -62,7 +64,7 @@
             android:id="@+id/button"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/back_button" />
+            android:background="@drawable/backbutt" />
     </LinearLayout>
 
     <LinearLayout
@@ -84,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/scorebackground"
+            android:background="@drawable/score_background"
             android:fontFamily="@font/fredoka_one"
             android:gravity="center"
             android:text="0"

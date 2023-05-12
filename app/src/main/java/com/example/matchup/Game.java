@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
@@ -32,6 +34,8 @@ public class Game {
     public static int score = 0;
 
     private EasyActivity easyActivity;
+    public static GridLayout cardGridLayout;
+    public static FlippableButton[] allButtons;
     Game(Context context) {
         mContext = context;
     }
@@ -59,13 +63,13 @@ public class Game {
 
     public Drawable[] createGameBoard(int count) {
         Drawable[] drawables = new Drawable[] {
-                mContext.getResources().getDrawable(R.drawable.bull),
-                mContext.getResources().getDrawable(R.drawable.chick),
-                mContext.getResources().getDrawable(R.drawable.crab),
-                mContext.getResources().getDrawable(R.drawable.fox),
-                mContext.getResources().getDrawable(R.drawable.tiger),
-                mContext.getResources().getDrawable(R.drawable.hippopotamus),
-                mContext.getResources().getDrawable(R.drawable.pig),
+                mContext.getResources().getDrawable(R.drawable.batman),
+                mContext.getResources().getDrawable(R.drawable.captainamerica),
+                mContext.getResources().getDrawable(R.drawable.flash),
+                mContext.getResources().getDrawable(R.drawable.hulk),
+                mContext.getResources().getDrawable(R.drawable.ironman),
+                mContext.getResources().getDrawable(R.drawable.superman),
+                mContext.getResources().getDrawable(R.drawable.thor),
                 // Add more drawables here as needed
         };
 
@@ -123,13 +127,41 @@ public class Game {
     }
 
 
+    public static void disableAllButtons() {
 
+        int count = cardGridLayout.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = cardGridLayout.getChildAt(i);
+            if (child instanceof Button) {
+                Button button = (Button) child;
+                button.setEnabled(false);
+            }
+        }
+        
+    }
+
+    public static void enableAllButtons() {
+
+
+        int count = cardGridLayout.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = cardGridLayout.getChildAt(i);
+            if (child instanceof Button) {
+                Button button = (Button) child;
+                button.setEnabled(true);
+            }
+        }
+    }
 
 
     public void updateScore() {
         Game.scoreView.setText(Integer.toString(score));
     }
     public void newGame(GridLayout gridLayout, int numColumns, int numRows) {
+
+        // Getting the gridlayout of the cards for future use
+        cardGridLayout = gridLayout;
+
 
         // Set the number of columns and rows for the grid
 
@@ -143,7 +175,7 @@ public class Game {
             @Override
             public void onGlobalLayout() {
 
-                int spacing = 10;
+                int spacing = 30;
 
                 int width = gridLayout.getWidth();
 
@@ -156,6 +188,8 @@ public class Game {
 
                 Log.d("CARDPOSITIONS: ", Arrays.toString(Game.cardIds));
 
+                FlippableButton[] storeButtons = new FlippableButton[numColumns * numRows];
+
                 for (int i = 0; i < numColumns * numRows; i++) {
                     FlippableButton button = new FlippableButton(mContext, drawables[i]);
                     button.cardValue = Game.cardIds[i];
@@ -166,8 +200,9 @@ public class Game {
                     button.setLayoutParams(params);
                     gridLayout.addView(button);
 
-
+                    storeButtons[i] = button;
                 }
+                allButtons = storeButtons;
 
                 // Remove the listener to avoid multiple calls
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);

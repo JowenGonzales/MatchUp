@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout frontView;
     LinearLayout difficultyView;
     RelativeLayout navbarlayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
