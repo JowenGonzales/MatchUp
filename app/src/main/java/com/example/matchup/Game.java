@@ -27,7 +27,7 @@ public class Game {
 
     public static FlippableButton firstFlippedCard;
     public static FlippableButton secondFlippedCard;
-    public List<FlippableButton> matchedCards = new ArrayList<>();
+    public static List<FlippableButton> matchedCards = new ArrayList<>();
 
     public static int[] cardIds;
     public static TextView scoreView;
@@ -37,6 +37,7 @@ public class Game {
     public static GridLayout cardGridLayout;
     public static FlippableButton[] allButtons;
     public static boolean matched = false;
+
     Game(Context context) {
         mContext = context;
     }
@@ -46,12 +47,14 @@ public class Game {
 
     }
     public void destroy() {
+        if (matchedCards != null) {
+            matchedCards.clear();
+        }
         score = 0;
         firstFlippedCard = null;
         secondFlippedCard = null;
-        mContext = null;
-        matchedCards = null;
-        cardIds = null;
+
+
 
     }
     public void setTextView(TextView textview) {
@@ -138,21 +141,29 @@ public class Game {
                 button.setEnabled(false);
             }
         }
-        
+
     }
-
+    private static boolean isButtonInMatchedCards(Button button) {
+        for (FlippableButton matchedButton : Game.matchedCards) {
+            if (matchedButton.equals(button)) {
+                return true;
+            }
+        }
+        return false;
+    }
     public static void enableAllButtons() {
-
-
         int count = cardGridLayout.getChildCount();
         for (int i = 0; i < count; i++) {
             View child = cardGridLayout.getChildAt(i);
             if (child instanceof Button) {
                 Button button = (Button) child;
-                button.setEnabled(true);
+                if (!isButtonInMatchedCards(button)) {
+                    button.setEnabled(true);
+                }
             }
         }
     }
+
 
 
     public static void updateScore() {
@@ -213,8 +224,8 @@ public class Game {
         });
     }
     public static void resetFlippedCards() {
-        firstFlippedCard = null;
-        secondFlippedCard = null;
+        Game.firstFlippedCard = null;
+        Game.secondFlippedCard = null;
     }
 
 }
