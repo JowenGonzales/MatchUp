@@ -67,13 +67,13 @@ public class Game {
 
     public Drawable[] createGameBoard(int count) {
         Drawable[] drawables = new Drawable[] {
-                mContext.getResources().getDrawable(R.drawable.batman),
-                mContext.getResources().getDrawable(R.drawable.captainamerica),
-                mContext.getResources().getDrawable(R.drawable.flash),
-                mContext.getResources().getDrawable(R.drawable.hulk),
-                mContext.getResources().getDrawable(R.drawable.ironman),
-                mContext.getResources().getDrawable(R.drawable.superman),
+                mContext.getResources().getDrawable(R.drawable.bulleye),
+                mContext.getResources().getDrawable(R.drawable.daredevil),
+                mContext.getResources().getDrawable(R.drawable.juggernaut),
+                mContext.getResources().getDrawable(R.drawable.octopus),
                 mContext.getResources().getDrawable(R.drawable.thor),
+                mContext.getResources().getDrawable(R.drawable.violet),
+                mContext.getResources().getDrawable(R.drawable.bigman),
                 // Add more drawables here as needed
         };
 
@@ -141,7 +141,6 @@ public class Game {
                 button.setEnabled(false);
             }
         }
-
     }
     private static boolean isButtonInMatchedCards(Button button) {
         for (FlippableButton matchedButton : Game.matchedCards) {
@@ -159,6 +158,8 @@ public class Game {
                 Button button = (Button) child;
                 if (!isButtonInMatchedCards(button)) {
                     button.setEnabled(true);
+                } else {
+                    button.setEnabled(false);
                 }
             }
         }

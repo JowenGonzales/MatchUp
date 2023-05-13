@@ -53,7 +53,7 @@
             android:id="@+id/button3"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/homebutt" />
+            android:background="@drawable/menu" />
 
         <Space
             android:layout_width="wrap_content"

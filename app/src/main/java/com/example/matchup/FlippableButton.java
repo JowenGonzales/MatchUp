@@ -140,8 +140,8 @@ public class FlippableButton extends AppCompatButton {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                // Matched
                                 if (Game.firstFlippedCard.cardValue == Game.secondFlippedCard.cardValue) {
-
 
                                     Game.matchedCards.add(Game.firstFlippedCard);
                                     Game.matchedCards.add(Game.secondFlippedCard);
@@ -149,6 +149,7 @@ public class FlippableButton extends AppCompatButton {
                                     // Add scores and show it
                                     Game.score += 10;
                                     Game.updateScore();
+                                    Game.enableAllButtons();
                                 } else {
                                     Game.firstFlippedCard.flipAnimation.start();
                                     Game.secondFlippedCard.flipAnimation.start();

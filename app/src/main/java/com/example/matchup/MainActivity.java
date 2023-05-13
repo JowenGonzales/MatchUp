@@ -80,19 +80,20 @@ public class MainActivity extends AppCompatActivity {
     public void playEasy(View view) {
         intent = new Intent(MainActivity.this, EasyActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
 
 
     }
     public void playMedium(View view) {
         intent = new Intent(MainActivity.this, MediumActivity.class);
         startActivity(intent);
-
-
+        overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
     }
 
     public void playHard(View view) {
         intent = new Intent(MainActivity.this, HardActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
 
 
     }
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("column", column.getText().toString());
 
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
 
     }
 
