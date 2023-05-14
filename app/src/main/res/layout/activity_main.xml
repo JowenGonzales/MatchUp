@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/comicbackground"
+    android:background="@drawable/homebackground"
     android:theme="@style/Theme.AppCompat.NoActionBar">
 
 
@@ -20,15 +20,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
+            android:layout_width="335dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:baselineAligned="true"
-            app:srcCompat="@drawable/avengersfronticon" />
+            app:srcCompat="@drawable/avengersicon" />
 
         <Button
             android:id="@+id/button2"
@@ -56,60 +56,59 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <Button
             android:id="@+id/easybutton"
-            android:layout_width="229dp"
+            android:layout_width="300dp"
             android:layout_height="81dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/defaultbutton"
             android:fontFamily="@font/avengero_regular"
             android:onClick="playEasy"
             android:text="EASY"
             android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:layout_marginBottom="10dp"
-            />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/mediumbutton"
-            android:layout_width="229dp"
+            android:layout_width="300dp"
             android:layout_height="81dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/defaultbutton"
             android:fontFamily="@font/avengero_regular"
             android:onClick="playMedium"
             android:text="MEDIUM"
             android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:layout_marginBottom="10dp"/>
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/hardbutton"
-            android:layout_width="229dp"
+            android:layout_width="300dp"
             android:layout_height="81dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/defaultbutton"
             android:fontFamily="@font/avengero_regular"
             android:onClick="playHard"
             android:text="hard"
             android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:layout_marginBottom="10dp"/>
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/customButton"
-            android:layout_width="229dp"
+            android:layout_width="300dp"
             android:layout_height="81dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/defaultbutton"
             android:fontFamily="@font/avengero_regular"
             android:onClick="playCustom"
             android:text="CUSTOM"
             android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            android:layout_marginBottom="10dp"/>
+            android:textSize="30sp" />
 
 
     </LinearLayout>

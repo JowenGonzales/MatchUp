@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
@@ -31,12 +32,14 @@ public class Game {
 
     public static int[] cardIds;
     public static TextView scoreView;
+    public static LinearLayout finishedView;
     public static int score = 0;
 
     private EasyActivity easyActivity;
     public static GridLayout cardGridLayout;
     public static FlippableButton[] allButtons;
     public static boolean matched = false;
+    public static int cardCount;
 
     Game(Context context) {
         mContext = context;
@@ -57,6 +60,9 @@ public class Game {
 
 
     }
+    public void setGameFinishedView(LinearLayout linearLayout) {
+        finishedView = linearLayout;
+    }
     public void setTextView(TextView textview) {
 
         scoreView = textview;
@@ -67,13 +73,10 @@ public class Game {
 
     public Drawable[] createGameBoard(int count) {
         Drawable[] drawables = new Drawable[] {
-                mContext.getResources().getDrawable(R.drawable.bulleye),
-                mContext.getResources().getDrawable(R.drawable.daredevil),
-                mContext.getResources().getDrawable(R.drawable.juggernaut),
-                mContext.getResources().getDrawable(R.drawable.octopus),
-                mContext.getResources().getDrawable(R.drawable.thor),
-                mContext.getResources().getDrawable(R.drawable.violet),
-                mContext.getResources().getDrawable(R.drawable.bigman),
+                mContext.getResources().getDrawable(R.drawable.hulk),
+                mContext.getResources().getDrawable(R.drawable.wolverine),
+                mContext.getResources().getDrawable(R.drawable.ironman),
+                mContext.getResources().getDrawable(R.drawable.galactus),
                 // Add more drawables here as needed
         };
 
@@ -174,6 +177,7 @@ public class Game {
 
         // Getting the gridlayout of the cards for future use
         cardGridLayout = gridLayout;
+        cardCount = numColumns * numRows;
 
 
         // Set the number of columns and rows for the grid
@@ -188,7 +192,7 @@ public class Game {
             @Override
             public void onGlobalLayout() {
 
-                int spacing = 30;
+                int spacing = 15;
 
                 int width = gridLayout.getWidth();
 

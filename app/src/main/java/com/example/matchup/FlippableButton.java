@@ -150,6 +150,10 @@ public class FlippableButton extends AppCompatButton {
                                     Game.score += 10;
                                     Game.updateScore();
                                     Game.enableAllButtons();
+
+                                    if (Game.matchedCards.size() >= Game.cardCount) {
+                                        Game.finishedView.setVisibility(View.VISIBLE);
+                                    }
                                 } else {
                                     Game.firstFlippedCard.flipAnimation.start();
                                     Game.secondFlippedCard.flipAnimation.start();
