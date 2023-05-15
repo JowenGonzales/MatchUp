@@ -1,10 +1,20 @@
 package com.example.matchup;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
@@ -24,32 +34,92 @@ public class Game {
 
     public static FlippableButton firstFlippedCard;
     public static FlippableButton secondFlippedCard;
-    public List<FlippableButton> matchedCards = new ArrayList<>();
+    public static List<FlippableButton> matchedCards = new ArrayList<>();
 
     public static int[] cardIds;
-    public TextView scoreView;
+    public static TextView scoreView;
+    public static LinearLayout finishedView;
     public static int score = 0;
+
+    private EasyActivity easyActivity;
+    public static GridLayout cardGridLayout;
+    public static FlippableButton[] allButtons;
+    public static boolean matched = false;
+    public static int cardCount;
+
     Game(Context context) {
         mContext = context;
     }
 
-    public Game(TextView textView) {
-        scoreView = textView;
-    }
+
     public Game() {
 
     }
+    public void destroy() {
+        if (matchedCards != null) {
+            matchedCards.clear();
+        }
+        score = 0;
+        firstFlippedCard = null;
+        secondFlippedCard = null;
 
+
+
+    }
+
+    public static void makeCardGrey(FlippableButton button) {
+
+
+            // Get the background drawable of the button
+            Drawable backgroundDrawable = button.getBackground();
+
+            // Apply a color filter to darken the drawable
+            backgroundDrawable.setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+
+            // Set the modified drawable as the button's background
+            button.setBackground(backgroundDrawable);
+
+
+    }
+
+    public static void gameFinished() {
+        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(Game.finishedView, "scaleX", 0f, 1f);
+        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(Game.finishedView, "scaleY", 0f, 1f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
+        animatorSet.setDuration(500);
+        animatorSet.start();
+        Game.finishedView.setVisibility(View.VISIBLE);
+    }
+    public void setGameFinishedView(LinearLayout linearLayout) {
+        finishedView = linearLayout;
+    }
+    public void setTextView(TextView textview) {
+
+        scoreView = textview;
+    }
     public void addFlippedCard(FlippableButton drawable) {
         matchedCards.add(drawable);
     }
 
     public Drawable[] createGameBoard(int count) {
         Drawable[] drawables = new Drawable[] {
-                mContext.getResources().getDrawable(R.drawable.bull),
-                mContext.getResources().getDrawable(R.drawable.chick),
-                mContext.getResources().getDrawable(R.drawable.crab),
-                mContext.getResources().getDrawable(R.drawable.fox),
+                mContext.getResources().getDrawable(R.drawable.batman),
+                mContext.getResources().getDrawable(R.drawable.blackwidow),
+                mContext.getResources().getDrawable(R.drawable.captainamerica),
+                mContext.getResources().getDrawable(R.drawable.deadpool),
+                mContext.getResources().getDrawable(R.drawable.doctorstrange),
+                mContext.getResources().getDrawable(R.drawable.flash),
+                mContext.getResources().getDrawable(R.drawable.greenarrow),
+                mContext.getResources().getDrawable(R.drawable.greenlantern),
+                mContext.getResources().getDrawable(R.drawable.hawkeye),
+                mContext.getResources().getDrawable(R.drawable.hulk),
+                mContext.getResources().getDrawable(R.drawable.ironman),
+                mContext.getResources().getDrawable(R.drawable.spiderman),
+                mContext.getResources().getDrawable(R.drawable.superman),
+                mContext.getResources().getDrawable(R.drawable.thor),
+                mContext.getResources().getDrawable(R.drawable.wolverine),
+                mContext.getResources().getDrawable(R.drawable.wonderwoman),
                 // Add more drawables here as needed
         };
 
@@ -107,27 +177,54 @@ public class Game {
     }
 
 
-    public Drawable randomDrawable() {
-        Drawable[] drawables = new Drawable[] {
-                mContext.getResources().getDrawable(R.drawable.bull),
-                mContext.getResources().getDrawable(R.drawable.chick),
-                mContext.getResources().getDrawable(R.drawable.crab),
-                mContext.getResources().getDrawable(R.drawable.fox),
-                // Add more drawables here as needed
-        };
-        return drawables[0];
+    public static void disableAllButtons() {
+
+        int count = cardGridLayout.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = cardGridLayout.getChildAt(i);
+            if (child instanceof Button) {
+                Button button = (Button) child;
+                button.setClickable(false);
+
+            }
+        }
+    }
+    private static boolean isButtonInMatchedCards(Button button) {
+        for (FlippableButton matchedButton : Game.matchedCards) {
+            if (matchedButton.equals(button)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void enableAllButtons() {
+        int count = cardGridLayout.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = cardGridLayout.getChildAt(i);
+            if (child instanceof Button) {
+                Button button = (Button) child;
+                if (!isButtonInMatchedCards(button)) {
+                    button.setClickable(true);
+                } else {
+                    button.setClickable(false);
+                }
+            }
+        }
     }
 
 
 
-    public void updateScore() {
-        Log.d("TAG", Integer.toString(score));
+    public static void updateScore() {
+        Game.scoreView.setText(Integer.toString(score));
     }
-    public void newGame(GridLayout gridLayout) {
+    public void newGame(GridLayout gridLayout, int numColumns, int numRows) {
+
+        // Getting the gridlayout of the cards for future use
+        cardGridLayout = gridLayout;
+        cardCount = numColumns * numRows;
+
 
         // Set the number of columns and rows for the grid
-        int numColumns = 3;
-        int numRows = 4;
 
         gridLayout.setRowCount(numRows);
         gridLayout.setColumnCount(numColumns);
@@ -139,7 +236,7 @@ public class Game {
             @Override
             public void onGlobalLayout() {
 
-                int spacing = 10;
+                int spacing = 15;
 
                 int width = gridLayout.getWidth();
 
@@ -150,7 +247,9 @@ public class Game {
                 // Create buttons and add them to the GridLayout
                 Drawable[] drawables = new Game(mContext).createGameBoard(numColumns * numRows);
 
-                Log.d("TAG", Arrays.toString(Game.cardIds));
+                Log.d("CARDPOSITIONS: ", Arrays.toString(Game.cardIds));
+
+                FlippableButton[] storeButtons = new FlippableButton[numColumns * numRows];
 
                 for (int i = 0; i < numColumns * numRows; i++) {
                     FlippableButton button = new FlippableButton(mContext, drawables[i]);
@@ -161,7 +260,10 @@ public class Game {
 
                     button.setLayoutParams(params);
                     gridLayout.addView(button);
+
+                    storeButtons[i] = button;
                 }
+                allButtons = storeButtons;
 
                 // Remove the listener to avoid multiple calls
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -170,7 +272,9 @@ public class Game {
             }
         });
     }
-
-
+    public static void resetFlippedCards() {
+        Game.firstFlippedCard = null;
+        Game.secondFlippedCard = null;
+    }
 
 }

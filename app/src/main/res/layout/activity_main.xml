@@ -4,91 +4,211 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@drawable/homebackground2"
+    android:theme="@style/Theme.AppCompat.NoActionBar">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/gridLayout4"
-        android:layout_width="341dp"
-        android:layout_height="452dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginBottom="31dp"
+    <LinearLayout
+        android:id="@+id/frontView"
+        android:layout_width="375dp"
+        android:layout_height="622dp"
+        android:orientation="vertical"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.66">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        tools:visibility="visible">
 
-    </androidx.gridlayout.widget.GridLayout>
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="335dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:baselineAligned="true"
+            app:srcCompat="@drawable/avengersicon" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="229dp"
+            android:layout_height="81dp"
+            android:layout_gravity="center"
+            android:background="@drawable/defaultbutton"
+            android:fontFamily="@font/avengero_regular"
+            android:onClick="play"
+            android:text="PLAY"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp" />
+
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="343dp"
-        android:layout_height="72dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="7dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        android:id="@+id/difficultyView"
+        android:layout_width="349dp"
+        android:layout_height="410dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        tools:visibility="gone">
+
+        <Button
+            android:id="@+id/easybutton"
+            android:layout_width="300dp"
+            android:layout_height="81dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/defaultbutton"
+            android:fontFamily="@font/avengero_regular"
+            android:onClick="playEasy"
+            android:text="EASY"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/mediumbutton"
+            android:layout_width="300dp"
+            android:layout_height="81dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/defaultbutton"
+            android:fontFamily="@font/avengero_regular"
+            android:onClick="playMedium"
+            android:text="MEDIUM"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/hardbutton"
+            android:layout_width="300dp"
+            android:layout_height="81dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/defaultbutton"
+            android:fontFamily="@font/avengero_regular"
+            android:onClick="playHard"
+            android:text="hard"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/customButton"
+            android:layout_width="300dp"
+            android:layout_height="81dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/defaultbutton"
+            android:fontFamily="@font/avengero_regular"
+            android:onClick="playCustom"
+            android:text="CUSTOM"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/navbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="16dp"
+        tools:visibility="gone">
+
+        <Button
+            android:id="@+id/left_button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/back_button"
+            android:onClick="back" />
+
+        <Button
+            android:id="@+id/right_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/settings" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/customView"
+        android:layout_width="345dp"
+        android:layout_height="336dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        tools:visibility="gone">
 
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/home_button" />
-
-        <Space
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/back_button" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="545dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-        <TextView
-            android:id="@+id/textView2"
+        <EditText
+            android:id="@+id/editTextTextPersonName3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="@drawable/scorebackground"
+            android:ems="10"
             android:fontFamily="@font/fredoka_one"
             android:gravity="center"
-            android:text="0"
+            android:inputType="number"
+            android:textColor="#FE9904"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/scorebackground"
+            android:ems="10"
+            android:fontFamily="@font/fredoka_one"
+            android:gravity="center"
+            android:inputType="number"
             android:textColor="#FE9904"
             android:textSize="24sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/leftButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:background="@drawable/button"
+                android:fontFamily="@font/fredoka_one"
+                android:onClick="cancelCustom"
+                android:text="Cancel"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/rightButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button"
+                android:fontFamily="@font/fredoka_one"
+                android:onClick="startCustomGame"
+                android:text="OK"
+                android:textSize="16sp" />
+        </LinearLayout>
+
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
