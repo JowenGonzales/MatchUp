@@ -5,12 +5,16 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +68,9 @@ public class FlippableButton extends AppCompatButton {
     }
 
     private void init() {
+
+
+
         // Create the front and back drawables
         frontDrawable = getResources().getDrawable(R.drawable.back);
         backDrawable = backimage;
@@ -82,13 +89,21 @@ public class FlippableButton extends AppCompatButton {
         flipAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         flipAnimation.setStartDelay(100);
 
+        Game.disableAllButtons();
+        flipAnimation.start();
 
 
 
-
-
-
-
+        // Delay before flipping the cards again
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Game.disableAllButtons();
+                // Start the second flip animation here
+                flipAnimation.start();
+            }
+        }, 2000);
 
 
 
@@ -122,14 +137,15 @@ public class FlippableButton extends AppCompatButton {
             public void onClick(View v) {
                 // Only start the animation if the button is enabled
                 if (isEnabled()) {
-                    if (Game.firstFlippedCard == null) {
+                    if (Game.firstFlippedCard == null && Game.secondFlippedCard == null) {
 
                         Log.d("COUNT", "First Card Flipped");
                         Game.firstFlippedCard = FlippableButton.this;
                         flipAnimation.start();
-                        
-                    } else if (Game.secondFlippedCard == null) {
-                        Log.d("COUNT", "First Card Flipped");
+
+
+                    } else if (Game.firstFlippedCard != null && Game.secondFlippedCard == null) {
+                        Log.d("COUNT", "Second Card Flipped");
                         Game.secondFlippedCard = FlippableButton.this;
                         flipAnimation.start();
 
@@ -140,8 +156,9 @@ public class FlippableButton extends AppCompatButton {
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                Log.d("CHECK", "Checking Cards");
                                 // Matched
-                                if (Game.firstFlippedCard.cardValue == Game.secondFlippedCard.cardValue) {
+                                if (Game.firstFlippedCard != null && Game.firstFlippedCard.cardValue == Game.secondFlippedCard.cardValue) {
 
                                     Game.matchedCards.add(Game.firstFlippedCard);
                                     Game.matchedCards.add(Game.secondFlippedCard);
@@ -149,10 +166,33 @@ public class FlippableButton extends AppCompatButton {
                                     // Add scores and show it
                                     Game.score += 10;
                                     Game.updateScore();
-                                    Game.enableAllButtons();
 
                                     if (Game.matchedCards.size() >= Game.cardCount) {
-                                        Game.finishedView.setVisibility(View.VISIBLE);
+                                        Game.gameFinished();
+
+                                    } else {
+                                        // Small-scale animation for matched cards
+                                        ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(Game.firstFlippedCard, "scaleX", 1f, 0.8f, 1f);
+                                        ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(Game.firstFlippedCard, "scaleY", 1f, 0.8f, 1f);
+                                        AnimatorSet animatorSet = new AnimatorSet();
+                                        animatorSet.playTogether(scaleXAnimator, scaleYAnimator);
+                                        animatorSet.setDuration(300);
+                                        animatorSet.start();
+
+                                        ObjectAnimator scaleXAnimator2 = ObjectAnimator.ofFloat(Game.secondFlippedCard, "scaleX", 1f, 0.8f, 1f);
+                                        ObjectAnimator scaleYAnimator2 = ObjectAnimator.ofFloat(Game.secondFlippedCard, "scaleY", 1f, 0.8f, 1f);
+                                        AnimatorSet animatorSet2 = new AnimatorSet();
+                                        animatorSet2.playTogether(scaleXAnimator2, scaleYAnimator2);
+                                        animatorSet2.setDuration(300);
+                                        animatorSet2.start();
+
+
+                                        // Make the button Greyish
+
+
+
+
+
                                     }
                                 } else {
                                     Game.firstFlippedCard.flipAnimation.start();
