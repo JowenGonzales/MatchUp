@@ -89,37 +89,45 @@ public class FlippableButton extends AppCompatButton {
         flipAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         flipAnimation.setStartDelay(100);
 
-        Game.disableAllButtons();
-        flipAnimation.start();
 
 
-
+        setEnabled(false);
         // Delay before flipping the cards again
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Game.disableAllButtons();
                 // Start the second flip animation here
                 flipAnimation.start();
             }
-        }, 2000);
+        }, 1500);
+
+
+        // Delay before flipping the cards again
+        Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Start the second flip animation here
+                flipAnimation.start();
+                setEnabled(true);
+            }
+        }, 4000);
 
 
 
         flipOut.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                Game.disableAllButtons();
+
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
 
-
                 // Flip the Card
                 flip();
-                Game.enableAllButtons();
+
 
             }
 
@@ -139,17 +147,22 @@ public class FlippableButton extends AppCompatButton {
                 if (isEnabled()) {
                     if (Game.firstFlippedCard == null && Game.secondFlippedCard == null) {
 
+
                         Log.d("COUNT", "First Card Flipped");
                         Game.firstFlippedCard = FlippableButton.this;
                         flipAnimation.start();
 
+                        Game.firstFlippedCard.setEnabled(false);
 
                     } else if (Game.firstFlippedCard != null && Game.secondFlippedCard == null) {
+
                         Log.d("COUNT", "Second Card Flipped");
                         Game.secondFlippedCard = FlippableButton.this;
+
+                        Game.secondFlippedCard.setEnabled(false);
                         flipAnimation.start();
 
-
+                        Game.secondFlippedCard.setEnabled(false);
                         // Delay before flipping the first card
                         Handler handler = new Handler();
 
@@ -171,6 +184,7 @@ public class FlippableButton extends AppCompatButton {
                                         Game.gameFinished();
 
                                     } else {
+                                        Log.d("TAG", Integer.toString(Game.matchedCards.size()));
                                         // Small-scale animation for matched cards
                                         ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(Game.firstFlippedCard, "scaleX", 1f, 0.8f, 1f);
                                         ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(Game.firstFlippedCard, "scaleY", 1f, 0.8f, 1f);
@@ -186,9 +200,12 @@ public class FlippableButton extends AppCompatButton {
                                         animatorSet2.setDuration(300);
                                         animatorSet2.start();
 
+                                        Game.firstFlippedCard.setEnabled(false);
+                                        Game.secondFlippedCard.setEnabled(false);
+
+
 
                                         // Make the button Greyish
-
 
 
 
@@ -197,6 +214,9 @@ public class FlippableButton extends AppCompatButton {
                                 } else {
                                     Game.firstFlippedCard.flipAnimation.start();
                                     Game.secondFlippedCard.flipAnimation.start();
+
+                                    Game.firstFlippedCard.setEnabled(true);
+                                    Game.secondFlippedCard.setEnabled(true);
                                 }
                                 Game.resetFlippedCards();
                             }

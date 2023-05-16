@@ -1,9 +1,13 @@
 package com.example.matchup;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +32,19 @@ public class EasyActivity extends AppCompatActivity {
         game.setGameFinishedView(finishedView);
         game.newGame(gridLayout4, 3, 4);
 
+
+
+
+
+
+
     }
+
+    private int dpToPx(int dp) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
+    }
+
     @Override
     protected void onDestroy() {
 
