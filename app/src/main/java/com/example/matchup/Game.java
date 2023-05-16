@@ -35,6 +35,7 @@ public class Game {
     public static FlippableButton firstFlippedCard;
     public static FlippableButton secondFlippedCard;
     public static List<FlippableButton> matchedCards = new ArrayList<>();
+    public static List<FlippableButton> disabledButtons = new ArrayList<>();
 
     public static int[] cardIds;
     public static TextView scoreView;
@@ -58,6 +59,9 @@ public class Game {
     public void destroy() {
         if (matchedCards != null) {
             matchedCards.clear();
+        }
+        if (disabledButtons != null) {
+            disabledButtons.clear();
         }
         score = 0;
         firstFlippedCard = null;
@@ -185,12 +189,19 @@ public class Game {
             if (child instanceof Button) {
                 Button button = (Button) child;
                 button.setClickable(false);
-
             }
         }
     }
     private static boolean isButtonInMatchedCards(Button button) {
         for (FlippableButton matchedButton : Game.matchedCards) {
+            if (matchedButton.equals(button)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private static boolean isButtonInDisabledButtons(Button button) {
+        for (FlippableButton matchedButton : Game.disabledButtons) {
             if (matchedButton.equals(button)) {
                 return true;
             }
@@ -209,6 +220,15 @@ public class Game {
                     button.setClickable(false);
                 }
             }
+            if (child instanceof Button) {
+                Button button = (Button) child;
+                if (!isButtonInDisabledButtons(button)) {
+                    button.setClickable(true);
+                } else {
+                    button.setClickable(false);
+                }
+            }
+
         }
     }
 
@@ -255,7 +275,7 @@ public class Game {
                     FlippableButton button = new FlippableButton(mContext, drawables[i]);
                     button.cardValue = Game.cardIds[i];
                     GridLayout.LayoutParams params = new GridLayout.LayoutParams(
-                            new ViewGroup.LayoutParams(buttonWidth, buttonWidth));
+                            new ViewGroup.LayoutParams(buttonWidth, buttonWidth + 5));
                     params.setMargins(0, 0, spacing, spacing);
 
                     button.setLayoutParams(params);
