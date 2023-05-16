@@ -8,23 +8,26 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:src="@drawable/backgroundonplay"
-        app:layout_constraintBaseline_toBaselineOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout4"
-        android:layout_width="359dp"
-        android:layout_height="511dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="67dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="364dp"
+        android:layout_height="499dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
     </androidx.gridlayout.widget.GridLayout>
 
@@ -36,12 +39,10 @@
         android:orientation="vertical"
 
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
         tools:visibility="gone">
 
         <Space
@@ -104,12 +105,14 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="412dp"
-        android:layout_height="92dp"
+        android:id="@+id/linearLayout"
+        android:layout_width="393dp"
+        android:layout_height="74dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="29dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/gridLayout4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -121,57 +124,64 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <LinearLayout
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="37dp"
+                android:layout_height="74dp"
                 android:layout_weight="1"
-                android:background="@drawable/timebar"
-                android:orientation="vertical"
+                android:background="@drawable/timebar">
 
-                ></LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="37dp"
-                android:layout_weight="1"
-                android:background="@drawable/scorebar"
-                android:orientation="vertical">
-
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="251dp"
+                    android:layout_height="34dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/scoreprogress"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
-        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="368dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/boardbackground"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout4">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="124dp"
                 android:fontFamily="@font/avengero_regular"
                 android:text="Score"
-                android:textColor="#000000"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="126dp"
                 android:layout_height="18dp"
-                android:layout_marginTop="124dp"
                 android:fontFamily="@font/avengero_regular"
                 android:text="0"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.326"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="14sp" />
         </LinearLayout>
-
 
     </LinearLayout>
 

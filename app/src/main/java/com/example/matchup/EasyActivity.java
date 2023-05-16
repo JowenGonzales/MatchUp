@@ -1,11 +1,14 @@
 package com.example.matchup;
 
 import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,10 +30,21 @@ public class EasyActivity extends AppCompatActivity {
         textView2 = findViewById(R.id.textView2);
         finishedView = findViewById(R.id.finishedView);
 
-        Game game = new Game(EasyActivity.this);
-        game.setTextView(textView2);
-        game.setGameFinishedView(finishedView);
-        game.newGame(gridLayout4, 3, 4);
+        // Find your View by its ID
+        View view = findViewById(R.id.view);
+
+// Get the initial width of the view
+        int initialWidth = view.getWidth();
+
+// Create an ObjectAnimator to animate the width property
+        ObjectAnimator animator = ObjectAnimator.ofInt(view, "width", initialWidth, 0);
+        animator.setDuration(1000); // Set the animation duration in milliseconds
+
+// Start the animation
+        animator.start();
+
+
+
 
 
 
