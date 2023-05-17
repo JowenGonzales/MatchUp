@@ -7,14 +7,19 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
@@ -39,8 +44,10 @@ public class Game {
 
     public static int[] cardIds;
     public static TextView scoreView;
+    public static TextView triesView;
     public static LinearLayout finishedView;
     public static int score = 0;
+    public static int tries = 0;
 
     private EasyActivity easyActivity;
     public static GridLayout cardGridLayout;
@@ -48,6 +55,10 @@ public class Game {
     public static boolean matched = false;
     public static int cardCount;
 
+    public static ProgressBar scoreProgressBar;
+
+    public static TextView gameFinishedTextScore;
+    public static DisplayMetrics displayMetrics;
     Game(Context context) {
         mContext = context;
     }
@@ -70,7 +81,22 @@ public class Game {
 
 
     }
+    public static void addScoreProgress() {
+        int totalCards = Game.cardCount; // Replace with the actual total number of cards
+        int cardsFound = Game.matchedCards.size(); // Replace with the actual number of cards found by the user
+        int maxProgress = 100;
 
+        int targetProgress = (int) ((float) cardsFound / totalCards * maxProgress);
+
+// Create the ObjectAnimator to animate the progress property
+        ObjectAnimator progressAnimator = ObjectAnimator.ofInt(scoreProgressBar, "progress", targetProgress);
+
+// Set the duration of the animation in milliseconds
+        progressAnimator.setDuration(1000); // 1000 milliseconds = 1 second
+
+// Start the animation
+        progressAnimator.start();
+    }
     public static void makeCardGrey(FlippableButton button) {
 
 
@@ -85,7 +111,8 @@ public class Game {
 
 
     }
-
+    public static List<ImageView> starButton = new ArrayList<>();
+    public static TextView triesFinishedView;
     public static void gameFinished() {
         ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(Game.finishedView, "scaleX", 0f, 1f);
         ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(Game.finishedView, "scaleY", 0f, 1f);
@@ -94,6 +121,57 @@ public class Game {
         animatorSet.setDuration(500);
         animatorSet.start();
         Game.finishedView.setVisibility(View.VISIBLE);
+
+        gameFinishedTextScore.setText("SCORE " + Game.score);
+        triesFinishedView.setText("TRIES  " + Game.tries);
+
+        
+
+
+
+        // Define the animation duration and delay between each ImageView
+        int animationDuration = 500; // in milliseconds
+        int animationDelay = 200; // in milliseconds
+
+// Iterate over the ImageViews and apply the animation
+        for (int i = 0; i < starButton.size(); i++) {
+            ImageView imageView = starButton.get(i);
+
+            // Set the initial scale to 0 and rotation to a random value
+            imageView.setScaleX(0);
+            imageView.setScaleY(0);
+            imageView.setRotation((float) (Math.random() * 360));
+
+            // Set the final alpha to 1
+            imageView.setAlpha(1f);
+
+            // Create and start the animation
+            ObjectAnimator scaleXAnimators = ObjectAnimator.ofFloat(imageView, "scaleX", 1);
+            ObjectAnimator scaleYAnimators = ObjectAnimator.ofFloat(imageView, "scaleY", 1);
+            ObjectAnimator rotationAnimator = ObjectAnimator.ofFloat(imageView, "rotation", 0);
+            ObjectAnimator alphaAnimator = ObjectAnimator.ofFloat(imageView, "alpha", 0, 1);
+
+            scaleXAnimators.setDuration(animationDuration);
+            scaleYAnimators.setDuration(animationDuration);
+            rotationAnimator.setDuration(animationDuration);
+            alphaAnimator.setDuration(animationDuration);
+
+            scaleXAnimators.setStartDelay(animationDelay * i);
+            scaleYAnimators.setStartDelay(animationDelay * i);
+            rotationAnimator.setStartDelay(animationDelay * i);
+            alphaAnimator.setStartDelay(animationDelay * i);
+
+            scaleXAnimators.setInterpolator(new OvershootInterpolator());
+            scaleYAnimators.setInterpolator(new OvershootInterpolator());
+            rotationAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+            alphaAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+
+            scaleXAnimators.start();
+            scaleYAnimators.start();
+            rotationAnimator.start();
+            alphaAnimator.start();
+        }
+
     }
     public void setGameFinishedView(LinearLayout linearLayout) {
         finishedView = linearLayout;
@@ -174,6 +252,7 @@ public class Game {
 
         // Set the cardIds field to the generated IDs
         cardIds = ids;
+
 
         // Return the game board array
         return gameBoard;
@@ -259,23 +338,20 @@ public class Game {
                 int spacing = 15;
 
                 int width = gridLayout.getWidth();
+                int height = gridLayout.getHeight();
 
-                // Calculate the width of each button based on the number of columns and grid layout width
-                int totalSpacing = spacing * (numColumns - 1);
-                int buttonWidth = (width - totalSpacing) / numColumns;
+                int buttonWidth = (width - spacing * (numColumns - 1)) / numColumns;
+                int buttonHeight = (height - spacing * (numRows - 1)) / numRows;
 
-                // Create buttons and add them to the GridLayout
                 Drawable[] drawables = new Game(mContext).createGameBoard(numColumns * numRows);
-
-                Log.d("CARDPOSITIONS: ", Arrays.toString(Game.cardIds));
-
                 FlippableButton[] storeButtons = new FlippableButton[numColumns * numRows];
 
                 for (int i = 0; i < numColumns * numRows; i++) {
                     FlippableButton button = new FlippableButton(mContext, drawables[i]);
                     button.cardValue = Game.cardIds[i];
+
                     GridLayout.LayoutParams params = new GridLayout.LayoutParams(
-                            new ViewGroup.LayoutParams(buttonWidth, buttonWidth + 5));
+                            new ViewGroup.LayoutParams(buttonWidth, buttonHeight));
                     params.setMargins(0, 0, spacing, spacing);
 
                     button.setLayoutParams(params);
@@ -285,12 +361,20 @@ public class Game {
                 }
                 allButtons = storeButtons;
 
-                // Remove the listener to avoid multiple calls
                 gridLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
 
             }
         });
+
+
+       
+
+
+
+
+
+
     }
     public static void resetFlippedCards() {
         Game.firstFlippedCard = null;

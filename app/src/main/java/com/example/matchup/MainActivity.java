@@ -82,19 +82,30 @@ public class MainActivity extends AppCompatActivity {
 
     public void playEasy(View view) {
         intent = new Intent(MainActivity.this, EasyActivity.class);
+        intent.putExtra("givenRow", "4");
+        intent.putExtra("givenColumn", "3");
+
+
         startActivity(intent);
         overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
 
 
     }
     public void playMedium(View view) {
-        intent = new Intent(MainActivity.this, MediumActivity.class);
+        intent = new Intent(MainActivity.this, EasyActivity.class);
+        intent.putExtra("givenRow", "4");
+        intent.putExtra("givenColumn", "5");
+
+
         startActivity(intent);
         overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
     }
 
     public void playHard(View view) {
-        intent = new Intent(MainActivity.this, HardActivity.class);
+        intent = new Intent(MainActivity.this, EasyActivity.class);
+        intent.putExtra("givenRow", "5");
+        intent.putExtra("givenColumn", "6");
+
         startActivity(intent);
         overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
 
@@ -115,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
         EditText row = findViewById(R.id.editTextTextPersonName3);
         EditText column = findViewById(R.id.editTextTextPersonName4);
 
-        intent = new Intent(MainActivity.this, CustomActivity.class);
-        intent.putExtra("row", row.getText().toString());
-        intent.putExtra("column", column.getText().toString());
+        intent = new Intent(MainActivity.this, EasyActivity.class);
+        intent.putExtra("givenRow", row.getText().toString());
+        intent.putExtra("givenColumn", column.getText().toString());
 
         startActivity(intent);
         overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
