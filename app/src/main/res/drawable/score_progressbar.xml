@@ -1,22 +1,8 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Background -->
-    <item android:id="@android:id/background">
-        <shape android:shape="rectangle">
-            <!-- Set your desired background color -->
-            <solid android:color="#CCCCCC" />
-            <!-- Set the desired border radius -->
-            <corners android:radius="20dp" />
-        </shape>
-    </item>
-
-    <!-- Progress -->
-    <item android:id="@android:id/progress">
-        <!-- Set your desired image as the progress drawable -->
-        <bitmap android:src="@drawable/timebarprogress"
-            android:tileMode="clamp"
-            android:gravity="center"
-            />
-    </item>
-
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:type="linear"
+        android:angle="0"
+        android:startColor="#e5405e"
+        android:centerColor="#ffdb3a"
+        android:endColor="#3fffa2" />
+</shape>

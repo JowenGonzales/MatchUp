@@ -7,6 +7,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -181,6 +182,8 @@ public class FlippableButton extends AppCompatButton {
                                     Game.updateScore();
 
                                     if (Game.matchedCards.size() >= Game.cardCount) {
+
+                                        Game.addScoreProgress();
                                         Game.gameFinished();
 
                                     } else {
@@ -200,11 +203,14 @@ public class FlippableButton extends AppCompatButton {
                                         animatorSet2.setDuration(300);
                                         animatorSet2.start();
 
+
+
+
                                         Game.firstFlippedCard.setEnabled(false);
                                         Game.secondFlippedCard.setEnabled(false);
 
 
-
+                                        Game.addScoreProgress();
                                         // Make the button Greyish
 
 
@@ -218,6 +224,8 @@ public class FlippableButton extends AppCompatButton {
                                     Game.firstFlippedCard.setEnabled(true);
                                     Game.secondFlippedCard.setEnabled(true);
                                 }
+                                Game.tries += 1;
+                                Game.triesView.setText(Integer.toString(Game.tries));
                                 Game.resetFlippedCards();
                             }
                         }, 1000); // Adjust the delay duration as needed
